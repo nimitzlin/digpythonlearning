@@ -1,7 +1,9 @@
 import numpy as np
+from collections import defaultdict
+from operator import itemgetter
+
 dataset_filename = "affinity_dataset.txt"
 x = np.loadtxt(dataset_filename)
-from collections import defaultdict
 valid_rules = defaultdict(int)
 invalid_rules = defaultdict(int)
 num_occurances = defaultdict(int)
@@ -24,7 +26,6 @@ for premise, conclusion in valid_rules.keys():
     confidence[rule] = valid_rules[rule] / float(num_occurances[premise])
     print rule, confidence[rule]
 
-from operator import itemgetter
 sorted_support = sorted(support.items(), key=itemgetter(1), reverse=True)
 
 print sorted_support
