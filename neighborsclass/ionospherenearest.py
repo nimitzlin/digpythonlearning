@@ -4,6 +4,7 @@ from sklearn.cross_validation import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import cross_val_score
 from matplotlib import pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 
 x = np.zeros((351, 34), dtype='float')
 y = np.zeros((351,), dtype='bool')
@@ -42,3 +43,16 @@ for n_neighbors in parameter_values:
 
 plt.plot(parameter_values, avg_scores, '-o')
 plt.savefig('images/plot1.png', format='png')
+
+
+#make dirty data
+X_broken = np.array(x)
+X_broken[:,::2] /= 10
+broken_scores = cross_val_score(estimator, X_broken, y, scoring='accuracy')
+print("The 'broken' average accuracy for is{0:.1f}%".format(np.mean(broken_scores) * 100))
+
+X_transformed = MinMaxScaler().fit_transform(X_broken)
+
+estimator = KNeighborsClassifier()
+transformed_scores = cross_val_score(estimator, X_transformed, y,scoring='accuracy')
+print("The average accuracy for is {0:.1f}%".format(np.mean(transformed_scores) * 100))
