@@ -3,6 +3,7 @@ import csv
 from sklearn.cross_validation import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import cross_val_score
+from matplotlib import pyplot as plt
 
 x = np.zeros((351, 34), dtype='float')
 y = np.zeros((351,), dtype='bool')
@@ -27,3 +28,17 @@ print "The accuracy is {0:.1f}%".format(accuracy)
 scores = cross_val_score(estimator, x, y, scoring='accuracy')
 average_accuracy = np.mean(scores) * 100
 print "The average accuracy is {0:.1f}%".format(average_accuracy)
+
+
+avg_scores = []
+all_scores = []
+parameter_values = list(range(1, 21)) # Include 20
+for n_neighbors in parameter_values:
+    estimator = KNeighborsClassifier(n_neighbors=n_neighbors)
+    scores = cross_val_score(estimator, x, y, scoring='accuracy')
+    avg_scores.append(np.mean(scores))
+    all_scores.append(scores)
+
+
+plt.plot(parameter_values, avg_scores, '-o')
+plt.savefig('images/plot1.png', format='png')
