@@ -5,6 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import cross_val_score
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.pipeline import Pipeline
 
 x = np.zeros((351, 34), dtype='float')
 y = np.zeros((351,), dtype='bool')
@@ -56,3 +57,8 @@ X_transformed = MinMaxScaler().fit_transform(X_broken)
 estimator = KNeighborsClassifier()
 transformed_scores = cross_val_score(estimator, X_transformed, y,scoring='accuracy')
 print("The average accuracy for is {0:.1f}%".format(np.mean(transformed_scores) * 100))
+
+scaling_pipeline = Pipeline([('scale', MinMaxScaler()), ('predict', KNeighborsClassifier())])
+
+scores = cross_val_score(scaling_pipeline, X_broken, y, scoring='accuracy')
+print("The pipeline scored an average accuracy for is {0:.1f}%".format(np.mean(transformed_scores) * 100))
