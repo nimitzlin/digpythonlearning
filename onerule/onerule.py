@@ -51,9 +51,11 @@ y = dataset.target
 #print(dataset.DESCR)
 
 #calc avg
+# 璁＄骞冲姣忛
 attribute_means = X.mean(axis=0)
 
 #split by avg
+# 澶т簬骞冲潎1 灏忎簬0 
 X_d = np.array(X >= attribute_means, dtype='int')
 
 print attribute_means
