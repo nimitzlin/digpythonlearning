@@ -2,6 +2,7 @@ from pandas_datareader import data, wb
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 from sklearn.cross_validation import cross_val_score
+import matplotlib.pyplot as plt
 
 class Stock(object):
 
@@ -58,14 +59,21 @@ class Stock(object):
             if row["last_one"] and row["last_two"] and not row["today_dir"]:
                 #print "false====", index
                 pass
+    
+    def draw_plot(self):
+
+            plt.plot([index for index, row in self.data.iterrows()], [row["percent"] for index, row in self.data.iterrows()])
+
+            plt.savefig('stock.png')
 
 
 if __name__ == "__main__":
 
-    s= Stock('BAC','1/1/2017','12/31/2017')
+    s= Stock('BAC','1/1/2017','2/28/2017')
 
     s.get_data_set()
 
     #print s.data
     s.get_decision_tree()
-    s.count_up_time()
+    #s.count_up_time()
+    s.draw_plot()
