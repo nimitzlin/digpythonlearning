@@ -54,9 +54,10 @@ class Stock(object):
 
         for index, row in self.data.iterrows():
             if row["last_one"] and row["last_two"] and row["today_dir"]:
-                print "true====", index, row
+                print "two day growth > 0.5%", index, row
             if row["last_one"] and row["last_two"] and not row["today_dir"]:
-                print "false====", index
+                #print "false====", index
+                pass
 
 
 if __name__ == "__main__":
